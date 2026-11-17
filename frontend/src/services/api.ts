@@ -54,7 +54,17 @@ api.interceptors.request.use((config) => {
 
 // Response interceptor - handle errors
 api.interceptors.response.use(
-    (response: AxiosResponse) => response,
+    (response: AxiosResponse) => {
+        // Handle SPA rewrite fallback where 404 API calls return index.html
+        const contentType = String(response.headers['content-type'] || '');
+        if (
+            typeof response.data === 'string' &&
+            (contentType.includes('text/html') || response.data.trim().startsWith('<!doctype') || response.data.trim().startsWith('<html'))
+        ) {
+            return Promise.reject(new Error(`API returned HTML instead of JSON for ${response.config.url}`));
+        }
+        return response;
+    },
     (error: AxiosError<ApiResponse>) => {
         // Don't redirect if it's a login attempt failure (expected 401)
         if (error.config?.url?.includes('/auth/login')) {

@@ -104,7 +104,6 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/logout" element={<Navigate to="/login" replace />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           {/* Public routes */}
@@ -132,10 +131,6 @@ function App() {
           <Route path="/addresses" element={
             <ProtectedRoute><Layout><AddressesPage /></Layout></ProtectedRoute>
           } />
-
-          <Route path="/addresses" element={
-            <ProtectedRoute><Layout><AddressesPage /></Layout></ProtectedRoute>
-          } />
           <Route path="/health-profile" element={
             <ProtectedRoute><Layout><HealthProfilePage /></Layout></ProtectedRoute>
           } />
@@ -157,7 +152,6 @@ function App() {
           } />
           <Route path="/doctors" element={<Layout><DoctorsPage /></Layout>} />
           <Route path="/consultations/my" element={<ProtectedRoute><Layout><MyConsultationsPage /></Layout></ProtectedRoute>} />
-          <Route path="/consultations/video/:id" element={<ProtectedRoute><VideoCallPage /></ProtectedRoute>} />
           <Route path="/consultations/video/:id" element={<ProtectedRoute><VideoCallPage /></ProtectedRoute>} />
           <Route path="/symptom-checker" element={<Layout><SymptomCheckerPage /></Layout>} />
 

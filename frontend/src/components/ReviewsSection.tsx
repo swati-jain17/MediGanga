@@ -23,9 +23,14 @@ export const ReviewsSection: React.FC = () => {
     const fetchReviews = async () => {
         try {
             const response = await api.get('/reviews');
-            setReviews(response.data.data);
+            if (response.data && Array.isArray(response.data.data)) {
+                setReviews(response.data.data);
+            } else {
+                setReviews([]);
+            }
         } catch (error) {
             console.error('Failed to fetch reviews:', error);
+            setReviews([]);
         }
     };
 
@@ -62,14 +67,14 @@ export const ReviewsSection: React.FC = () => {
                     </button>
                 </div>
 
-                {reviews.length === 0 ? (
+                {(!reviews || reviews.length === 0) ? (
                     <div className="text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
                         <MessageSquareQuote className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                         <p className="text-gray-500">No reviews yet. Be the first to share your experience!</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {reviews.map((review) => (
+                        {(reviews || []).map((review) => (
                             <div
                                 key={review.id}
                                 className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"

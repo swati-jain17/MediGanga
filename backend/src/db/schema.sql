@@ -566,3 +566,17 @@ DROP TRIGGER IF EXISTS update_consultations_updated_at ON consultations;
 CREATE TRIGGER update_consultations_updated_at BEFORE UPDATE ON consultations
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- ============================================
+-- Reviews Table & Profile Picture
+-- ============================================
+ALTER TABLE users ADD COLUMN IF NOT EXISTS profile_picture TEXT;
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+  comment TEXT,
+  status VARCHAR(20) DEFAULT 'approved',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
